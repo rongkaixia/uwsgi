@@ -22,9 +22,9 @@ def check_md5_sign(params, access_key):
     query_string_list = list(map(lambda x: "%s=%s"%(x, params[x]), keys))
     query_string = reduce(lambda x, y: x + "&" + y, query_string_list)
     query_string += "&%s=%s"%(ACCESS_KEY_NAME, access_key)
-    print query_string
+    print(query_string)
     true_sign = hashlib.md5(query_string).hexdigest()
-    print true_sign
+    print(true_sign)
     if true_sign != sign:
         return False
     return True
