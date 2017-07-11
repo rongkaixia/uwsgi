@@ -1,0 +1,2 @@
+# uwsgi
+uwsgi for huoqiangshou
