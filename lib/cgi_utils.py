@@ -13,6 +13,13 @@ from functools import reduce
 SIGN_NAME = 'sign'
 ACCESS_KEY_NAME = 'access_key'
 
+def check_time_format(time_str):
+    try:
+        time.strptime(time_str, "%Y%m%d%H%M%S")
+    except Exception as e:
+        return False
+    return True
+
 def check_md5_sign(params, access_key):
     if SIGN_NAME not in params:
         return False
