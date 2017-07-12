@@ -81,9 +81,9 @@ def application(environ, start_response):
                           'trade_amount': params['trade_amount'],
                           'trade_time': params['trade_time']})
     ad_url_query_string = {'ad_id': ad['_id'], 'exhibit_id': exhibit_id, 'return_to': ad['url']}
-    logging.debug("ad_url_query_string: %s")
+    logging.debug("ad_url_query_string: %s", ad_url_query_string)
     ad_url = '%s?%s'%(ad_stat_url, urllib.parse.urlencode(ad_url_query_string))
-    logging.debug("ad_url: %s")
+    logging.debug("ad_url: %s", ad_url)
     start_response(status, response_headers)
     output = {'return_code': error_code.OK,
               'return_msg': "success",
