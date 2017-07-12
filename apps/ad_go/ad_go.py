@@ -66,8 +66,24 @@ def application(environ, start_response):
     logging.debug("click_info: %s", click_info)
     click_id = save_click_doc(click_info)
 
-    status = '301 REDIRECT'
     return_to = urllib.parse.unquote(params['return_ad'])
-    response_headers = [('Location', return_to)]
+    response_headers = [('Content-type', 'text/html')]
     start_response(status, response_headers)
-    return []
+    return ['''
+    <!DOCTYPE html>
+    <!--STATUS OK-->
+    <html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta http-equiv="refresh" content="0; URL=%s">  
+        <meta content="always" name="referrer">
+        <meta name="theme-color" content="#2932e1">
+        <script>  
+        </script>  
+    </HEAD>  
+      
+    <BODY>  
+    </BODY>  
+    </HTML> 
+    '''%(return_to)]
