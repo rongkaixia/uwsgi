@@ -69,7 +69,7 @@ def application(environ, start_response):
     return_to = urllib.parse.unquote(params['return_ad'])
     response_headers = [('Content-type', 'text/html')]
     start_response(status, response_headers)
-    return ['''
+    return [('''
     <!DOCTYPE html>
     <!--STATUS OK-->
     <html>
@@ -86,4 +86,4 @@ def application(environ, start_response):
     <BODY>  
     </BODY>  
     </HTML> 
-    '''%(return_to).encode('utf-8')]
+    '''%(return_to)).encode('utf-8')]
