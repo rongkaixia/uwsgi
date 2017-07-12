@@ -40,13 +40,21 @@ def check_param(params):
 
 	return (error_code.OK, "success")
 
-def get_ad(params):
+def get_ad(params = None):
 	db_name = config['db']['mongo']['database']
 	ad_collection_name = config['db']['mongo']['collections']['ads']
-	db = client[db_name]
+	db = mongo_client[db_name]
 	ad_collection = db[ad_collection_name]
 	result = ad_collection.find_one()
 	return result
+
+def save_exhibition_stat(doc):
+	db_name = config['db']['mongo']['database']
+	collection_name = config['db']['mongo']['collections']['exhibition']
+	db = mongo_client[db_name]
+	collection = db[ad_collection_name]
+	exhibit_id = collection.insert_one(doc).inserted_id
+	return exhibit_id
 
 def application(environ, start_response):
     status = '200 OK'
@@ -73,3 +81,4 @@ def application(environ, start_response):
 if __name__ == "__main__":
 	c = get_ad()
 	print(c)
+	save_exhibition_stat({'time': '20177171', 'ad_id': c._id})

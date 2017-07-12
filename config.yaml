@@ -3,7 +3,7 @@ db:
   mongo:
     host: "localhost"
     port: 27017
-    database: "ad"
+    database: "ad_test"
     collections:
       ads: "ads"
       exhibition: "exhibition"
