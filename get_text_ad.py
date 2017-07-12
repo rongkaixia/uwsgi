@@ -9,6 +9,7 @@ import os
 import json
 import yaml
 import urllib.parse
+from datetime import datetime
 from pymongo import MongoClient
 from lib.cgi_utils import check_md5_sign, check_time_format
 from lib import error_code
@@ -52,7 +53,7 @@ def save_exhibition_stat(doc):
 	db_name = config['db']['mongo']['database']
 	collection_name = config['db']['mongo']['collections']['exhibition']
 	db = mongo_client[db_name]
-	collection = db[ad_collection_name]
+	collection = db[collection_name]
 	exhibit_id = collection.insert_one(doc).inserted_id
 	return exhibit_id
 
@@ -70,15 +71,26 @@ def application(environ, start_response):
 	    result = {'return_code': code, 'return_msg': msg}
 	    return [json.dumps(result).encode('utf-8')]
 
+	# get ad
+	ad_stat_url = config['ad_stat_url']
+	ad = get_ad()
+	current_time = datetime.now().strftime('%Y%m%d%H%M%S')
+	exhibit_id = save_exhibition_stat({'create_time': current_time,
+						  'ad_id': ad['_id'],
+						  'mch_name': params['mch_name'],
+						  'trade_amount': params['trade_amount'],
+						  'trade_time': params['trade_time']})
+	ad_url_query_string = 'ad_id=%s&exhibit_id=%s&return_to=%s'%(ad_id, exhibit_id, ad['url'])
+	ad_url = '%s?%s'%(ad_stat_url, urllib.parse.urlencode(ad_url_query_string))
     start_response(status, response_headers)
     output = {'return_code': error_code.OK,
     		  'return_msg': "success",
-    		  'id': '000001',
-    		  'slogan': 'this is an ad', 
-    		  'ad_url': 'www.baidu.com'}
+    		  'id': str(ad['_id']),
+    		  'slogan': ad['slogan'], 
+    		  'ad_url': ad_url}
     return [json.dumps(output).encode('utf-8')]
 
 if __name__ == "__main__":
 	c = get_ad()
 	print(c)
-	save_exhibition_stat({'time': '20177171', 'ad_id': c._id})
+	save_exhibition_stat({'time': '20177171', 'ad_id': c['_id']})
