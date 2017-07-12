@@ -7,12 +7,16 @@ import logging.config
 import time
 import os
 import json
+import yaml
 import urllib.parse
+from pymongo import MongoClient
 from lib.cgi_utils import check_md5_sign, check_time_format
 from lib import error_code
-
 logging.config.fileConfig("./logging.config")
+
 access_key = "zl77yJli1I5rFneKDLInIgSvjHt8tBsB"
+config = yaml.load(open(os.path.join("", 'config.yaml'), encoding='utf8'))
+mongo_client = MongoClient(config['db']['mongo']['host'], config['db']['mongo']['port'])
 
 def check_param(params):
 	if 'mch_name' not in params:
@@ -36,6 +40,14 @@ def check_param(params):
 
 	return (error_code.OK, "success")
 
+def get_ad(params):
+	db_name = config['db']['mongo']['database']
+	ad_collection_name = config['db']['mongo']['collections']['ads']
+	db = client[db_name]
+	ad_collection = db[ad_collection_name]
+	result = ad_collection.find_one()
+	return result
+
 def application(environ, start_response):
     status = '200 OK'
     response_headers = [('Content-type', 'application/json')]
@@ -57,3 +69,7 @@ def application(environ, start_response):
     		  'slogan': 'this is an ad', 
     		  'ad_url': 'www.baidu.com'}
     return [json.dumps(output).encode('utf-8')]
+
+if __name__ == "__main__":
+	c = get_ad()
+	print(c)

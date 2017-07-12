@@ -1,0 +1,10 @@
+access_key: "zl77yJli1I5rFneKDLInIgSvjHt8tBsB"
+db:
+  mongo:
+    host: "localhost"
+    port: 27017
+    database: "ad"
+    collections:
+      ads: "ads"
+      exhibition: "exhibition"
+      click: "click"
