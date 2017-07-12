@@ -43,12 +43,13 @@ def application(environ, start_response):
     logging.info("pid %s: get request %s", os.getpid(), environ)
 
     # logical
-    params = dict(urllib.parse.parse_qsl(environ.QUERY_STRING))
+    params = dict(urllib.parse.parse_qsl(environ['QUERY_STRING']))
     (code, msg) = check_param(params)
     if code != error_code.OK:
 	    start_response(status, response_headers)
 	    result = {'return_code': code, 'return_msg': msg}
 	    return [json.dumps(result).encode('utf-8')]
 
+    start_response(status, response_headers)
     output = {'sologn': 'this is an ad', 'url': 'www.baidu.com'}
     return [json.dumps(output).encode('utf-8')]
