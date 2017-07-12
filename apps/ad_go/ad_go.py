@@ -67,7 +67,9 @@ def application(environ, start_response):
     click_id = save_click_doc(click_info)
 
     return_to = urllib.parse.unquote(params['return_ad'])
-    result = '''
+    response_headers = [('Content-type', 'text/html')]
+    start_response(status, response_headers)
+    return ['''
     <!DOCTYPE html>
     <!--STATUS OK-->
     <html>
@@ -84,7 +86,4 @@ def application(environ, start_response):
     <BODY>  
     </BODY>  
     </HTML> 
-    '''%(return_to)
-    response_headers = [('Content-type', 'text/html'), ('Content-length', len(result))]
-    start_response(status, response_headers)
-    return []
+    '''%(return_to).encode('utf-8')]
