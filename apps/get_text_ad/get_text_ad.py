@@ -6,16 +6,19 @@ import logging
 import logging.config
 import time
 import os
+import sys
 import json
 import yaml
 import urllib.parse
 from datetime import datetime
 from pymongo import MongoClient
+
+sys.path.append("../..")
 from lib.cgi_utils import check_md5_sign, check_time_format
 from lib import error_code
-logging.config.fileConfig("./logging.config")
 
 access_key = "zl77yJli1I5rFneKDLInIgSvjHt8tBsB"
+logging.config.fileConfig("./logging.config")
 config = yaml.load(open(os.path.join("", 'config.yaml'), encoding='utf8'))
 mongo_client = MongoClient(config['db']['mongo']['host'], config['db']['mongo']['port'], connect=False)
 
