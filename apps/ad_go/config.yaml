@@ -1,0 +1,11 @@
+access_key: "zl77yJli1I5rFneKDLInIgSvjHt8tBsB"
+ad_stat_url: "http://120.77.180.18:8080/ad/go"
+db:
+  mongo:
+    host: "localhost"
+    port: 27017
+    database: "ad_test"
+    collections:
+      ads: "ads"
+      exhibition: "exhibitions"
+      click: "clicks"
