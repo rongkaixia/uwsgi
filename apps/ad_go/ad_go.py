@@ -27,8 +27,8 @@ def check_param(params):
         return (error_code.PARAM_ERROR, "need ad_id")
     if 'exhibit_id' not in params:
         return (error_code.PARAM_ERROR, "need exhibit_id")
-    if 'return_to' not in params:
-        return (error_code.PARAM_ERROR, "need return_to")
+    if 'return_ad' not in params:
+        return (error_code.PARAM_ERROR, "need return_ad")
 
     # if check_md5_sign(params, access_key) == False:
     #     return (error_code.SIGN_ERROR, 'sign error')
@@ -67,7 +67,7 @@ def application(environ, start_response):
     click_id = save_click_doc(click_info)
 
     status = '301 REDIRECT'
-    return_to = urllib.parse.unquote(params['return_to'])
+    return_to = urllib.parse.unquote(params['return_ad'])
     response_headers = [('Location', return_to)]
     start_response(status, response_headers)
     return []
