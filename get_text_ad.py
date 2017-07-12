@@ -7,7 +7,7 @@ import logging.config
 import time
 import os
 import json
-import urllib
+import urllib.parse
 from lib.cgi_utils import check_md5_sign, check_time_format
 from lib import error_code
 
