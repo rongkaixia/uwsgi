@@ -17,7 +17,7 @@ logging.config.fileConfig("./logging.config")
 
 access_key = "zl77yJli1I5rFneKDLInIgSvjHt8tBsB"
 config = yaml.load(open(os.path.join("", 'config.yaml'), encoding='utf8'))
-mongo_client = MongoClient(config['db']['mongo']['host'], config['db']['mongo']['port'])
+mongo_client = MongoClient(config['db']['mongo']['host'], config['db']['mongo']['port'], connect=False)
 
 def check_param(params):
     if 'mch_name' not in params:
@@ -80,8 +80,10 @@ def application(environ, start_response):
                           'mch_name': params['mch_name'],
                           'trade_amount': params['trade_amount'],
                           'trade_time': params['trade_time']})
-    ad_url_query_string = 'ad_id=%s&exhibit_id=%s&return_to=%s'%(ad_id, exhibit_id, ad['url'])
+    ad_url_query_string = {'ad_id': ad['_id'], 'exhibit_id': exhibit_id, 'return_to': ad['url']}
+    logging.debug("ad_url_query_string: %s")
     ad_url = '%s?%s'%(ad_stat_url, urllib.parse.urlencode(ad_url_query_string))
+    logging.debug("ad_url: %s")
     start_response(status, response_headers)
     output = {'return_code': error_code.OK,
               'return_msg': "success",
