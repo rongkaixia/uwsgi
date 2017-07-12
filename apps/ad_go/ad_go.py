@@ -47,7 +47,7 @@ def application(environ, start_response):
     logging.info("pid %s: get request %s", os.getpid(), environ)
     status = '200 OK'
     response_headers = [('Content-type', 'application/json')]
-    
+
     # logical
     params = dict(urllib.parse.parse_qsl(environ['QUERY_STRING']))
     (code, msg) = check_param(params)
@@ -67,7 +67,7 @@ def application(environ, start_response):
     click_id = save_click_doc(click_info)
 
     status = '301 REDIRECT'
-    return_to = urlib.parse.unqoute(params['return_to'])
+    return_to = urllib.parse.unquote(params['return_to'])
     response_headers = [('Location', return_to)]
     start_response(status, response_headers)
     return []
