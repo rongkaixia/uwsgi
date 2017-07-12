@@ -84,7 +84,6 @@ def application(environ, start_response):
     </HEAD>  
       
     <body>
-    <script src="https://s13.cnzz.com/z_stat.php?id=1262816284&web_id=1262816284" language="JavaScript"></script>
-    </body>  
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%%3Cspan id='cnzz_stat_icon_1262816284'%%3E%%3C/span%%3E%%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%%3Fid%%3D1262816284' type='text/javascript'%%3E%%3C/script%%3E"));</script></body>  
     </HTML> 
     '''%(return_to)).encode('utf-8')]
