@@ -50,6 +50,7 @@ def application(environ, start_response):
     params = dict(urllib.parse.parse_qsl(environ['QUERY_STRING']))
     (code, msg) = check_param(params)
     if code != error_code.OK:
+        status = '200 OK'
         start_response(status, response_headers)
         result = {'return_code': code, 'return_msg': msg}
         return [json.dumps(result).encode('utf-8')]
