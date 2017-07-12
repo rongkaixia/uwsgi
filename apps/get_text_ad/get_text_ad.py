@@ -54,7 +54,7 @@ def get_ad(params = None):
 
 def save_exhibition_stat(doc):
     db_name = config['db']['mongo']['database']
-    collection_name = config['db']['mongo']['collections']['exhibition']
+    collection_name = config['db']['mongo']['collections']['exhibitions']
     db = mongo_client[db_name]
     collection = db[collection_name]
     exhibit_id = collection.insert_one(doc).inserted_id

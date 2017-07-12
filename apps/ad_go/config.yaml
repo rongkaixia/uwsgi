@@ -7,5 +7,5 @@ db:
     database: "ad_test"
     collections:
       ads: "ads"
-      exhibition: "exhibitions"
-      click: "clicks"
+      exhibitions: "exhibitions"
+      clicks: "clicks"
