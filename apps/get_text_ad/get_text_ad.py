@@ -92,7 +92,8 @@ def application(environ, start_response):
               'return_msg': "success",
               'id': str(ad['_id']),
               'slogan': ad['slogan'], 
-              'ad_url': ad_url}
+              'ad_url': ad_url,
+              'image': ad['image']}
     return [json.dumps(output).encode('utf-8')]
 
 if __name__ == "__main__":
