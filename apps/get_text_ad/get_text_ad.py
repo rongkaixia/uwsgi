@@ -10,6 +10,7 @@ import sys
 import json
 import yaml
 import urllib.parse
+import numpy.random as random
 from datetime import datetime
 from pymongo import MongoClient
 
@@ -44,13 +45,16 @@ def check_param(params):
 
     return (error_code.OK, "success")
 
+# db.ads.insert({url: 'https://api.daishangqian.com/vue/?channel=595c4f9fe00c#!/active/promotion/page6', slogan: '缺钱应急不用愁，手机小额贷款解你忧，3分钟急速到账。', image: 'http://120.77.180.18:8080/images/ads/banner.png'})
+# db.ads.insert({url: 'http://event.sudaizhijia.com/m/landing13/index.html?sd_plat_fr=channel_291', slogan: '缺钱应急不用愁，手机小额贷款解你忧，3分钟急速到账。', image: 'http://120.77.180.18:8080/images/ads/banner.png'})
 def get_ad(params = None):
     db_name = config['db']['mongo']['database']
     ad_collection_name = config['db']['mongo']['collections']['ads']
     db = mongo_client[db_name]
     ad_collection = db[ad_collection_name]
-    result = ad_collection.find_one()
-    return result
+    result = ad_collection.find()
+    idx = random.randint(len(result))
+    return result[idx]
 
 def save_exhibition_stat(doc):
     db_name = config['db']['mongo']['database']
