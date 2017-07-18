@@ -52,7 +52,7 @@ def get_ad(params = None):
     ad_collection_name = config['db']['mongo']['collections']['ads']
     db = mongo_client[db_name]
     ad_collection = db[ad_collection_name]
-    result = ad_collection.find()
+    result = list(ad_collection.find())
     idx = random.randint(len(result))
     return result[idx]
 
