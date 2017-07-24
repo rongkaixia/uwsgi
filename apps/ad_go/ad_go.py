@@ -36,7 +36,10 @@ def check_param(params):
     return (error_code.OK, "success")
 
 def save_click_doc(doc):
-    db_name = config['db']['mongo']['database']
+    if config['debug'] == True:
+        db_name = config['db']['mongo']['database_test']
+    else:
+        db_name = config['db']['mongo']['database']
     collection_name = config['db']['mongo']['collections']['clicks']
     db = mongo_client[db_name]
     collection = db[collection_name]
@@ -57,7 +60,6 @@ def application(environ, start_response):
         return [json.dumps(result).encode('utf-8')]
 
     # save click stat info
-    ad_stat_url = config['ad_stat_url']
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     click_info = {'click_time': current_time,
                   'ip': environ['REMOTE_ADDR'],
