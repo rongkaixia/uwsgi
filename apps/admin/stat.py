@@ -72,7 +72,7 @@ def get_stat():
 
     clicks = click_collection.find()
     for cl in clicks:
-        t = datetime.strptime(cl["create_time"], "%Y%m%d%H%M%S")
+        t = datetime.strptime(cl["click_time"], "%Y%m%d%H%M%S")
         total_click_count += 1
         if t >= dt_line:
             today_click_count += 1
