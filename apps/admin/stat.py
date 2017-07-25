@@ -56,21 +56,22 @@ def get_stat():
     click_collection = mongo_client[db_name][click_coll_name]
     exhibition_collection = mongo_client[db_name][exhibition_coll_name]
 
-    #获取今日展示量及点击量
-    current_time = datetime.now()
-    dt_line = datetime(current_time.year, current_time.month, current_time.day)
-    exhibitions = exhibition_collection.find()
     today_ex_count = 0
     today_click_count = 0
     total_ex_count = 0
     total_click_count = 0
+    #获取今日展示量及点击量
+    current_time = datetime.now()
+    dt_line = datetime(current_time.year, current_time.month, current_time.day)
+    exhibitions = exhibition_collection.find()
     for ex in exhibitions:
         t = datetime.strptime(ex["create_time"], "%Y%m%d%H%M%S")
         total_ex_count += 1
         if t >= dt_line:
             today_ex_count += 1
 
-    for cl in click_collection:
+    clicks = click_collection.find()
+    for cl in clicks:
         t = datetime.strptime(cl["create_time"], "%Y%m%d%H%M%S")
         total_click_count += 1
         if t >= dt_line:
