@@ -51,8 +51,10 @@ def get_stat():
         db_name = config['db']['mongo']['database_test']
     else:
         db_name = config['db']['mongo']['database']
-    click_collection = config['db']['mongo']['collections']['clicks']
-    exhibition_collection = config['db']['mongo']['collections']['exhibitions']
+    click_coll_name = config['db']['mongo']['collections']['clicks']
+    exhibition_coll_name = config['db']['mongo']['collections']['exhibitions']
+    click_collection = mongo_client[db_name][click_coll_name]
+    exhibition_collection = mongo_client[db_name][exhibition_coll_name]
 
     #获取今日展示量及点击量
     current_time = datetime.now()
