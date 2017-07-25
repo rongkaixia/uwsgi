@@ -80,7 +80,7 @@ def get_stat():
     return {"today_click_count": today_click_count,
             "today_ex_count": today_ex_count,
             "total_click_count": total_click_count,
-            "total_ex_count": today_ex_count}
+            "total_ex_count": total_ex_count}
 
 
 
