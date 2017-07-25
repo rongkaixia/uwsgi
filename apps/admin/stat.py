@@ -46,10 +46,47 @@ def save_click_doc(doc):
     click_id = collection.insert_one(doc).inserted_id
     return click_id
 
+def get_stat():
+    if config['debug'] == True:
+        db_name = config['db']['mongo']['database_test']
+    else:
+        db_name = config['db']['mongo']['database']
+    click_collection = config['db']['mongo']['collections']['clicks']
+    exhibition_collection = config['db']['mongo']['collections']['exhibitions']
+
+    #获取今日展示量及点击量
+    current_time = datetime.now()
+    dt_line = datetime(current_time.year, current_time.month, current_time.day)
+    exhibitions = exhibition_collection.find()
+    today_ex_count = 0
+    today_click_count = 0
+    total_ex_count = 0
+    total_click_count = 0
+    for ex in exhibitions:
+        t = datetime.strptime(ex["create_time"], "%Y%m%d%H%M%S")
+        total_ex_count += 1
+        if t >= dt_line:
+            today_ex_count += 1
+
+    for cl in click_collection:
+        t = datetime.strptime(cl["create_time"], "%Y%m%d%H%M%S")
+        total_click_count += 1
+        if t >= dt_line:
+            today_click_count += 1
+
+    return {"today_click_count": today_click_count,
+            "today_ex_count": today_ex_count,
+            "total_click_count": total_click_count,
+            "total_ex_count": today_ex_count}
+
+
+
+
 def application(environ, start_response):
     logging.info("pid %s: get request %s", os.getpid(), environ)
     status = '200 OK'
 
+    stat = get_stat()
     response_headers = [('Content-type', 'text/html')]
     start_response(status, response_headers)
     return [('''
@@ -59,7 +96,6 @@ def application(environ, start_response):
     <head>
         <meta http-equiv="content-type" content="text/html;charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta http-equiv="refresh" content="0; URL=%s">  
         <meta content="always" name="referrer">
         <meta name="theme-color" content="#2932e1">
         <script>  
@@ -67,10 +103,13 @@ def application(environ, start_response):
     </HEAD>  
       
     <body>
-        <p>今日新增展示量：%s</p>
-        <p>今日新增点击量：1</p>
-        <p>总展示量: 1</p>
-        <p>总点击量: 1</p>
+        <p>今日新增展示量：%d</p>
+        <p>今日新增点击量：%d</p>
+        <p>总展示量: %d</p>
+        <p>总点击量: %d</p>
     </body>
     </HTML> 
-    '''%(1)).encode('utf-8')]
+    '''%(stat["today_ex_count"],
+        stat["today_click_count"],
+        stat["total_ex_count"],
+        stat["total_click_count"])).encode('utf-8')]
