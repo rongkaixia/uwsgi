@@ -90,6 +90,7 @@ def application(environ, start_response):
     current_time = datetime.now().strftime('%Y%m%d%H%M%S')
     exhibit_id = save_exhibition_stat({'create_time': current_time,
                           'ad_id': ad['_id'],
+                          'ip': environ['REMOTE_ADDR'],
                           'mch_name': params['mch_name'],
                           'trade_amount': params['trade_amount'],
                           'trade_time': params['trade_time']})
